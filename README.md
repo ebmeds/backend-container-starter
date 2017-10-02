@@ -1,59 +1,67 @@
-Express & ES6 REST API Boilerplate
+Express & ES6 REST API Boilerplate for EBMeDS
 ==================================
-
-[![bitHound Score](https://www.bithound.io/github/developit/express-es6-rest-api/badges/score.svg)](https://www.bithound.io/github/developit/express-es6-rest-api)
 
 This is a straightforward boilerplate for building REST APIs with ES6 and Express.
 
 - ES6 support via [babel](https://babeljs.io)
 - REST resources as middleware via [resource-router-middleware](https://github.com/developit/resource-router-middleware)
-- CORS support via [cors](https://github.com/troygoode/node-cors)
-- Body Parsing via [body-parser](https://github.com/expressjs/body-parser)
-
-> Tip: If you are using [Mongoose](https://github.com/Automattic/mongoose), you can automatically expose your Models as REST resources using [restful-mongoose](https://git.io/restful-mongoose).
+- Body parsing via [body-parser](https://github.com/expressjs/body-parser)
+- Logging with [bunyan](https://github.com/trentm/node-bunyan), logging by default to Logstash with [bunyan-logstash-tcp](https://github.com/transcovo/bunyan-logstash-tcp)
+- Utility functions provided by [lodash](https://lodash.com/)
+- Unit testing with [Mocha](https://mochajs.org) and [Chai](http://chaijs.com)
+- Code coverage with [Istanbul](https://gotwarlost.github.io/istanbul/)
+- Linting with [eslint](https://eslint.org) using [AirBnb rules](https://github.com/airbnb/javascript) in conjunction with [prettier rules](https://github.com/prettier/eslint-config-prettier) and the [eslint-prettier plugin](https://github.com/prettier/eslint-plugin-prettier)
+- Forced linting and test success before each git commit with [pre-commit](https://github.com/observing/pre-commit)
+- Pre-made Dockerfile using a [alpine-node](https://github.com/mhart/alpine-node) base image
+- Pre-configured [CircleCI config file](https://circleci.com)
 
 Getting Started
 ---------------
 
-```sh
-# clone it
-git clone git@github.com:developit/express-es6-rest-api.git
-cd express-es6-rest-api
+First, [fork this repo](https://help.github.com/articles/fork-a-repo/). Then, [rename the forked repository](https://help.github.com/articles/renaming-a-repository/) to something, i.e. `my-forked-project`.
 
-# Make it your own
-rm -rf .git && git init && npm init
+```sh
+# Clone it
+git clone git@github.com:ebmeds/my-forked-project.git
+cd my-forked-project
 
 # Install dependencies
 npm install
 
 # Start development live-reload server
-PORT=8080 npm run dev
+npm run dev
 
 # Start production server:
-PORT=8080 npm start
+npm start
 ```
+
+Configuring
+------
+
+All available configuration flags are found as environment variables in `.env.defaults`. If you want to change them, create a new `.env` file in the same root directory and redefine the config values there. **Do not commit `.env` to git!**
+
+Note that `.env.defaults` is overridden by `.env` and ultimately by any environment variables that are already defined. In other words, if `LISTEN_PORT` is set to `5000` in the shell (or by the `-e` flag in Docker), the value in `.env.defaults` and `.env` will be ignored.
+
+A rule of thumb is that `.env.defaults` contains sane default values that are usable for production, minus sensitive data like DB passwords. Developers should have a custom `.env` file for their local machine. In practice, the final config tweaks for production is done by Docker environment variables.
+
 Docker Support
 ------
 ```sh
-cd express-es6-rest-api
+cd my-forked-project
 
 # Build your docker
-docker build -t es6/api-service .
-#            ^      ^           ^
+docker build -t my-new-service .
+#            ^      ^          ^
 #          tag  tag name      Dockerfile location
 
 # run your docker
-docker run -p 8080:8080 es6/api-service
-#                 ^            ^
-#          bind the port    container tag
-#          to your host
-#          machine port   
+docker run -e DB_PASSWORD=123 -p 8080:8080 my-new-service
+#              ^               ^            ^
+#          Custom env     bind the port    container tag
+#          variable       to your host
+#                         machine port
 
 ```
-
-Docker Demo
--------------------------
-It's supposed to be pretty easy to take your Docker to your favourite cloud service, here's a demo of what's our Dockerized bolierplate is like: [https://docker-deployment-yudfxfiaja.now.sh/api](https://docker-deployment-yudfxfiaja.now.sh/api)
 
 License
 -------
