@@ -10,8 +10,8 @@
     "prestart": "npm run -s build",
     "lint": "eslint src",
     "coverage": "NODE_ENV=test LOG_LEVEL=error nyc --reporter=lcov npm test",
-    "test:junit": "mocha --reporter=mocha-junit-reporter --compilers js:babel-core/register \"./app/**/*.spec.js\"",
-    "test": "mocha --compilers js:babel-core/register \"./app/**/*.spec.js\""
+    "test:junit": "mocha --reporter=mocha-junit-reporter --compilers js:babel-core/register \"./src/**/*.spec.js\"",
+    "test": "mocha --compilers js:babel-core/register \"./src/**/*.spec.js\""
   },
   "repository": "ebmeds/backend-container-starter",
   "author": "Ville Lindholm <ville.lindholm@iki.fi>",
