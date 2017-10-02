@@ -1,38 +1,28 @@
 {
-  "name": "express-es6-rest-api",
-  "version": "0.3.0",
-  "description": "Starter project for an ES6 RESTful Express API",
+  "name": "backend-container-starter",
+  "version": "1.0.0",
+  "description": "Starter project for an ES6 RESTful Express API container in EBMeDS",
   "main": "dist",
   "scripts": {
     "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
     "build": "babel src -s -D -d dist --presets es2015,stage-0",
     "start": "node dist",
     "prestart": "npm run -s build",
-    "test": "eslint src"
+    "lint": "eslint src",
+    "coverage": "NODE_ENV=test LOG_LEVEL=error nyc --reporter=lcov npm test",
+    "test:junit": "mocha --reporter=mocha-junit-reporter --compilers js:babel-core/register \"./app/**/*.spec.js\"",
+    "test": "mocha --compilers js:babel-core/register \"./app/**/*.spec.js\""
   },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "parserOptions": {
-      "ecmaVersion": 7,
-      "sourceType": "module"
-    },
-    "env": {
-      "node": true
-    },
-    "rules": {
-      "no-console": 0,
-      "no-unused-vars": 1
-    }
-  },
-  "repository": "developit/express-es6-rest-api",
-  "author": "Jason Miller <jason@developit.ca>",
+  "repository": "ebmeds/backend-container-starter",
+  "author": "Ville Lindholm <ville.lindholm@iki.fi>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.13.3",
+    "bunyan": "1.8.12",
+    "bunyan-logstash-tcp": "1.0.0",
     "compression": "^1.5.2",
-    "cors": "^2.7.1",
     "express": "^4.13.3",
-    "morgan": "^1.8.0",
+    "lodash": "4.17.4",
     "resource-router-middleware": "^0.6.0"
   },
   "devDependencies": {
@@ -40,7 +30,18 @@
     "babel-core": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
-    "eslint": "^3.1.1",
-    "nodemon": "^1.9.2"
+    "chai": "4.1.2",
+    "eslint": "4.8.0",
+    "eslint-config-airbnb-base": "12.0.1",
+    "eslint-config-prettier": "2.6.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-prettier": "2.3.1",
+    "istanbul": "0.4.5",
+    "mocha": "3.5.3",
+    "mocha-junit-reporter": "1.14.0",
+    "nodemon": "^1.9.2",
+    "nyc": "11.2.1",
+    "pre-commit": "1.2.2",
+    "prettier": "1.7.3"
   }
 }

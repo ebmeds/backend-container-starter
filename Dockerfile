@@ -1,25 +1,19 @@
-FROM alpine:3.4
+FROM mhart/alpine-node:8
 
 # File Author / Maintainer
-LABEL authors="Zouhir Chahoud <zouhir@zouhir.org>"
-
-# Update & install required packages
-RUN apk add --update nodejs bash git
+LABEL authors="Ville Lindholm <ville.lindholm@duodecim.fi>"
 
 # Install app dependencies
-COPY package.json /www/package.json
-RUN cd /www; npm install
+COPY package.json /app/package.json
+RUN cd /app; npm install
 
 # Copy app source
-COPY . /www
+COPY ./src /app
 
-# Set work directory to /www
-WORKDIR /www
+# Set work directory to /app
+WORKDIR /app
 
-# set your port
-ENV PORT 8080
-
-# expose the port to outside world
+# expose the port to outside world (this is probably overriden in the Swarm)
 EXPOSE  8080
 
 # start command as per package.json
