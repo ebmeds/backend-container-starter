@@ -17,6 +17,7 @@
   "author": "Ville Lindholm <ville.lindholm@iki.fi>",
   "license": "MIT",
   "dependencies": {
+    "backoff": "2.5.0",
     "body-parser": "1.13.3",
     "bunyan": "1.8.12",
     "bunyan-logstash-tcp": "1.0.0",
@@ -24,7 +25,8 @@
     "dotenv-extended": "2.0.1",
     "express": "4.13.3",
     "lodash": "4.17.4",
-    "resource-router-middleware": "0.6.0"
+    "request": "2.83.0",
+    "uuid": "3.1.0"
   },
   "devDependencies": {
     "babel-cli": "6.9.0",

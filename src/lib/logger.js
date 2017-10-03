@@ -22,7 +22,7 @@ if (process.env.USE_LOGSTASH.toLowerCase() === 'yes') {
             .LOGSTASH_HOST}:${process.env
             .LOGSTASH_PORT}, reason: ${err.code}. Retrying in 10 seconds...`,
         ),
-      ), // eslint-disable-line max-len
+      ),
   });
 } else {
   streams.push({

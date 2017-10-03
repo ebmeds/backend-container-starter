@@ -1,52 +1,55 @@
 import _ from 'lodash';
-import resource from 'resource-router-middleware';
+import { Router } from 'express';
 import facets from '../models/facets';
 
-export default () =>
-  resource({
-    /** Property name to store preloaded entity on `request`. */
-    id: 'facet',
+function getFacet(req) {
+  const { id } = req.params;
+  const facet = facets.find(f => f.id === id);
+  return facet;
+}
 
-    /** For requests with an `id`, you can auto-load the entity.
-	 *  Errors terminate the request, success sets `req[id] = data`.
-	 */
-    load(req, id, callback) {
-      const facet = facets.find(f => f.id === id);
-      const err = facet ? null : 'Not found';
-      callback(err, facet);
-    },
+export default () => {
+  const api = Router();
 
-    /** GET / - List all entities */
-    index({ params }, res) {
-      if (params.num !== undefined) res.json(facets[Number(params.num)]);
-      else res.json(facets);
-    },
-
-    /** POST / - Create a new entity */
-    create({ body }, res) {
-      body.id = facets.length.toString(36);
-      facets.push(body);
-      res.json(body);
-    },
-
-    /** GET /:id - Return a given entity */
-    read({ facet }, res) {
-      res.json(facet);
-    },
-
-    /** PUT /:id - Update a given entity */
-    update({ facet, body }, res) {
-      _.forEach(body, (value, key) => {
-        if (key !== 'id') {
-          facet[key] = body[key];
-        }
-      });
-      res.sendStatus(204);
-    },
-
-    /** DELETE /:id - Delete a given entity */
-    delete({ facet }, res) {
-      facets.splice(facets.indexOf(facet), 1);
-      res.sendStatus(204);
-    },
+  /** GET / -> Index */
+  api.get('/', (req, res) => {
+    res.json(facets);
   });
+
+  /** POST / -> Create new resource */
+  api.post('/', (req, res) => {
+    const { body } = req;
+    body.id = facets.length.toString(36);
+    facets.push(body);
+    req.logger(`Created facet ${body.id}`);
+    res.json(body);
+  });
+
+  /** GET /29 -> Get resource with ID 29 */
+  api.get('/:id', (req, res) => {
+    const facet = getFacet(req);
+    if (facet) res.json(facet);
+    else res.status(404).json({ msg: 'Not found' });
+  });
+
+  /** PUT /29 -> Update resource with ID 29 */
+  api.put('/:id', (req, res) => {
+    req.logger(`Updating facet ${req.params.id}`);
+    const { body } = req;
+    const facet = getFacet(req);
+    _.forEach(body, (value, key) => {
+      if (key !== 'id') {
+        facet[key] = body[key];
+      }
+    });
+    res.sendStatus(204);
+  });
+
+  /** DELETE /29 -> Delete resource with ID 29 */
+  api.delete('/:id', (req, res) => {
+    req.logger(`Deleting facet ${req.params.id}`);
+    const facet = getFacet(req);
+    facets.splice(facets.indexOf(facet), 1);
+    res.sendStatus(204);
+  });
+};

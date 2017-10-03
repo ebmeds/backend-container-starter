@@ -35,6 +35,17 @@ npm run dev
 npm start
 ```
 
+Default operation
+------
+
+This starter package defines a simple REST API with the endpoint `/api/facets`, this should of course be replaced.
+
+Since this is a microservice template, we include middleware that creates a Bunyan logging object in `req.logger`. This logger object works like the default logger, with the additional feature that it attaches the field `req_id` to the log messages, for microservice traceability.
+
+Included as a utility is also the file `backoff-request.js`, which defines a HTTP request maker that automatically retries the request on failure, for a specified number of times. This makes calls between microservices more robust.
+
+For slow services, some kind of rate limiting should be implemented so that the request queue does not grow limitlessly. This is not implemented in this package, but rate limiting works great together with `backoff-request.js` mentioned above.
+
 Configuring
 ------
 
