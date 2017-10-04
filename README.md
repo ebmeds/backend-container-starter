@@ -18,6 +18,8 @@ This is a straightforward boilerplate for building REST APIs with ES6 and Expres
 
 First, [fork this repo](https://help.github.com/articles/fork-a-repo/). Then, [rename the forked repository](https://help.github.com/articles/renaming-a-repository/) to something, i.e. `my-forked-project`.
 
+**NOTE:** It is apparently impossible to make a fork of this repository into the `ebmeds` organization, due to a limitation in GitHub. Instead, clone this repo, rename the folder (from `backend-container-starter` to something else), remove the `.git` folder and follow [the instructions here](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/) to create a new `ebmeds` repo with the newly downloaded files.
+
 ```sh
 # Clone it
 git clone git@github.com:ebmeds/my-forked-project.git
