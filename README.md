@@ -10,7 +10,7 @@ This is a straightforward boilerplate for building REST APIs with ES6 and Expres
 - Utility functions provided by [lodash](https://lodash.com/)
 - Unit testing with [Mocha](https://mochajs.org) and [Chai](http://chaijs.com)
 - Code coverage with [Istanbul](https://gotwarlost.github.io/istanbul/)
-- Linting with [eslint](https://eslint.org) using [AirBnb rules](https://github.com/airbnb/javascript) in conjunction with [prettier rules](https://github.com/prettier/eslint-config-prettier) and the [eslint-prettier plugin](https://github.com/prettier/eslint-plugin-prettier)
+- Linting with [eslint](https://eslint.org) using [Airbnb rules](https://github.com/airbnb/javascript) in conjunction with [prettier rules](https://github.com/prettier/eslint-config-prettier) and the [eslint-prettier plugin](https://github.com/prettier/eslint-plugin-prettier)
 - Forced linting and test success before each git commit with [pre-commit](https://github.com/observing/pre-commit)
 - Pre-made Dockerfile using a [alpine-node](https://github.com/mhart/alpine-node) base image
 - Pre-configured [CircleCI config file](https://circleci.com)
@@ -54,6 +54,19 @@ All available configuration flags are found as environment variables in `.env.de
 Note that `.env.defaults` is overridden by `.env` and ultimately by any environment variables that are already defined. In other words, if `LISTEN_PORT` is set to `5000` in the shell (or by the `-e` flag in Docker), the value in `.env.defaults` and `.env` will be ignored.
 
 A rule of thumb is that `.env.defaults` contains sane default values that are usable for production, minus sensitive data like DB passwords. Developers should have a custom `.env` file for their local machine. In practice, the final config tweaks for production is done by Docker environment variables.
+
+Conventions
+--------
+
+## Log level
+
+The log level is set with the environment variable `LOG_LEVEL`, and can be one of `trace`, `debug`, `info`, `warn`, `error`. The default is `info`, which is a sensible default for production. However, for test environments the level will most likely be forced to `debug`. On your own machine, `trace` might be needed.
+
+Log "verbose" stuff to `trace`, potentially valuable verbose stuff to `debug`. Log to `info` instead of using `console.log`. `warn` and `error` should be self-explanatory.
+
+## Linting
+
+We enforce Airbnb and Prettier linting rules. These should NOT be overriden without good reason. The quickest way to turn off an unnecessary linting error is to add a comment on the same line with `// eslint-disable-line RULE_NAME`, where `RULE_NAME` is the specific rule that should be turned off (this leaves room for other errors to occur on that line). The most common offending rule is `max-len`, since it is often more readable to leave very long strings on one line instead of breaking them up.
 
 Docker Support
 ------
